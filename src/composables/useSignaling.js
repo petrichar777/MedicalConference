@@ -1,4 +1,5 @@
 import { ref, onUnmounted } from 'vue'
+import { WS_BASE } from '../config.js'
 
 export function useSignaling() {
   const ws = ref(null)
@@ -8,9 +9,14 @@ export function useSignaling() {
   const handlers = new Map()
 
   function connect(sessionId, role) {
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-    const host = window.location.host
-    const url = `${protocol}//${host}/ws/signaling?sessionId=${sessionId}&role=${role}`
+    let url
+    if (WS_BASE) {
+      url = `${WS_BASE}/ws/signaling?sessionId=${sessionId}&role=${role}`
+    } else {
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+      const host = window.location.host
+      url = `${protocol}//${host}/ws/signaling?sessionId=${sessionId}&role=${role}`
+    }
 
     ws.value = new WebSocket(url)
 

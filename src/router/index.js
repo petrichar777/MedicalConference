@@ -3,7 +3,8 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    redirect: '/requester',
+    name: 'role-select',
+    component: () => import('../views/RoleSelectView.vue'),
   },
   {
     path: '/requester',

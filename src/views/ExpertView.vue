@@ -40,10 +40,12 @@ import { useRouter } from 'vue-router'
 import { Monitor } from '@element-plus/icons-vue'
 import { useConsultationStore } from '../stores/consultation.js'
 import { useSignaling } from '../composables/useSignaling.js'
+import { useRingtone } from '../composables/useRingtone.js'
 import IncomingCallDialog from '../components/call/IncomingCallDialog.vue'
 
 const router = useRouter()
 const store = useConsultationStore()
+const ringtone = useRingtone()
 const wsReady = ref(false)
 
 let waitingSignaling = null
@@ -72,16 +74,19 @@ function startWaiting() {
   waitingSignaling.on('CALL_INCOMING', (payload, msg) => {
     store.sessionId = msg.sessionId
     store.setStateFromEvent('CALL_INCOMING')
+    ringtone.start()
   })
 
-  waitingSignaling.on('CALL_REJECTED', () => store.setStateFromEvent('CALL_REJECTED'))
-  waitingSignaling.on('CALL_TIMEOUT', () => store.setStateFromEvent('CALL_TIMEOUT'))
+  waitingSignaling.on('CALL_REJECTED', () => { ringtone.stop(); store.setStateFromEvent('CALL_REJECTED') })
+  waitingSignaling.on('CALL_TIMEOUT', () => { ringtone.stop(); store.setStateFromEvent('CALL_TIMEOUT') })
+  waitingSignaling.on('HANGUP', () => { ringtone.stop() })
 
   wsReady.value = true
 }
 
 async function handleAnswer() {
   if (!store.sessionId) return
+  ringtone.stop()
 
   sessionSignaling = useSignaling()
   sessionSignaling.connect(store.sessionId, 'EXPERT')
@@ -97,6 +102,7 @@ async function handleAnswer() {
 
 async function handleReject() {
   if (!store.sessionId) return
+  ringtone.stop()
   try { await store.rejectCall() } catch (e) { store.error = e.message || '操作失败' }
 }
 

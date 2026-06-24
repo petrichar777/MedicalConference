@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
+import { API_BASE } from '../config.js'
+
+const api = axios.create({ baseURL: API_BASE })
 
 export const useConsultationStore = defineStore('consultation', () => {
   // --- State ---
@@ -27,7 +30,7 @@ export const useConsultationStore = defineStore('consultation', () => {
   // --- Actions ---
   async function createSession() {
     role.value = 'REQUESTER'
-    const { data } = await axios.post('/api/sessions')
+    const { data } = await api.post('/api/sessions')
     sessionId.value = data.sessionId
     roomId.value = data.roomId
     sdkAppId.value = data.sdkAppId
@@ -38,13 +41,13 @@ export const useConsultationStore = defineStore('consultation', () => {
   }
 
   async function initiateCall() {
-    const { data } = await axios.post(`/api/sessions/${sessionId.value}/call`)
+    const { data } = await api.post(`/api/sessions/${sessionId.value}/call`)
     state.value = 'CALLING'
     return data
   }
 
   async function answerCall() {
-    const { data } = await axios.post(`/api/sessions/${sessionId.value}/answer`)
+    const { data } = await api.post(`/api/sessions/${sessionId.value}/answer`)
     sdkAppId.value = data.sdkAppId
     userSig.value = data.userSig
     userId.value = data.userId
@@ -55,20 +58,20 @@ export const useConsultationStore = defineStore('consultation', () => {
   }
 
   async function rejectCall() {
-    await axios.post(`/api/sessions/${sessionId.value}/reject`)
+    await api.post(`/api/sessions/${sessionId.value}/reject`)
     state.value = 'IDLE'
   }
 
   async function hangup() {
     const by = role.value === 'REQUESTER' ? 'REQUESTER' : 'EXPERT'
-    await axios.post(`/api/sessions/${sessionId.value}/hangup?by=${by}`)
+    await api.post(`/api/sessions/${sessionId.value}/hangup?by=${by}`)
     state.value = 'HANGUP'
   }
 
   async function loadMockData() {
     const [patientRes, vitalsRes] = await Promise.all([
-      axios.get('/api/mock/patient'),
-      axios.get('/api/mock/vitals/latest'),
+      api.get('/api/mock/patient'),
+      api.get('/api/mock/vitals/latest'),
     ])
     patientInfo.value = patientRes.data
     vitalsData.value = vitalsRes.data

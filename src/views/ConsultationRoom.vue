@@ -7,6 +7,12 @@
       :error="store.error"
     />
 
+    <DevicePermission
+      :camera-denied="mediaStore.cameraAvailable === false"
+      :mic-denied="mediaStore.micAvailable === false"
+      @retry="retryDevices"
+    />
+
     <div class="room-main">
       <div class="video-area">
         <RemoteVideo :connected="store.state === 'CONNECTED'" />
@@ -42,6 +48,7 @@ import MediaControls from '../components/video/MediaControls.vue'
 import PatientInfoPanel from '../components/patient/PatientInfoPanel.vue'
 import MindrayVitalsPanel from '../components/vitals/MindrayVitalsPanel.vue'
 import ConnectionStatus from '../components/common/ConnectionStatus.vue'
+import DevicePermission from '../components/common/DevicePermission.vue'
 
 const router = useRouter()
 const store = useConsultationStore()
@@ -91,6 +98,17 @@ watch(() => store.state, async (newState) => {
     router.replace(target)
   }
 })
+
+async function retryDevices() {
+  try {
+    await trtcStore.publishLocalStream()
+    mediaStore.cameraAvailable = true
+    mediaStore.micAvailable = true
+  } catch {
+    mediaStore.cameraAvailable = false
+    mediaStore.micAvailable = false
+  }
+}
 
 async function onRemoteHangup() {
   store.setStateFromEvent('HANGUP')

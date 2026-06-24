@@ -2,31 +2,23 @@
   <div class="media-controls">
     <div class="controls-center">
       <el-tooltip :content="mediaStore.micEnabled ? '关闭麦克风' : '打开麦克风'" placement="top">
-        <el-button
+        <button
           :class="['ctrl-btn', { 'ctrl-off': !mediaStore.micEnabled }]"
-          circle
-          size="large"
           @click="toggleMic"
         >
-          <el-icon :size="20">
-            <Microphone v-if="mediaStore.micEnabled" />
-            <Mute v-else />
-          </el-icon>
-        </el-button>
+          <Microphone v-if="mediaStore.micEnabled" class="ctrl-icon" />
+          <Mute v-else class="ctrl-icon" />
+        </button>
       </el-tooltip>
 
       <el-tooltip :content="mediaStore.cameraEnabled ? '关闭摄像头' : '打开摄像头'" placement="top">
-        <el-button
+        <button
           :class="['ctrl-btn', { 'ctrl-off': !mediaStore.cameraEnabled }]"
-          circle
-          size="large"
           @click="toggleCamera"
         >
-          <el-icon :size="20">
-            <VideoCamera v-if="mediaStore.cameraEnabled" />
-            <VideoPause v-else />
-          </el-icon>
-        </el-button>
+          <VideoCamera v-if="mediaStore.cameraEnabled" class="ctrl-icon" />
+          <VideoPause v-else class="ctrl-icon" />
+        </button>
       </el-tooltip>
 
       <el-tooltip content="结束会诊" placement="top">
@@ -87,21 +79,39 @@ async function toggleCamera() {
 }
 
 .ctrl-btn {
-  width: 48px !important;
-  height: 48px !important;
-  background: rgba(255, 255, 255, 0.12) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: #fff !important;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   transition: all 0.2s ease;
+  padding: 0;
+  outline: none;
 }
 
 .ctrl-btn:hover {
-  background: rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.22);
 }
 
 .ctrl-btn.ctrl-off {
-  background: rgba(217, 91, 91, 0.6) !important;
-  border-color: rgba(217, 91, 91, 0.5) !important;
+  background: rgba(217, 91, 91, 0.65);
+  border-color: rgba(217, 91, 91, 0.5);
+}
+
+.ctrl-btn.ctrl-off:hover {
+  background: rgba(217, 91, 91, 0.8);
+}
+
+.ctrl-icon {
+  width: 20px;
+  height: 20px;
+  color: #fff;
+  fill: #fff;
 }
 
 .hangup-btn {
