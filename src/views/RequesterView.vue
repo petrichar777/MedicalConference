@@ -9,6 +9,7 @@
 
       <!-- IDLE -->
       <div v-if="store.state === 'IDLE'" class="entry-action">
+        <DeviceCheckPanel class="device-panel" @ready="onDevicesReady" />
         <el-button
           type="primary"
           size="large"
@@ -19,7 +20,6 @@
         >
           一键远程会诊
         </el-button>
-        <p class="device-hint">摄像头和麦克风将在接通后启用</p>
       </div>
 
       <!-- CALLING -->
@@ -47,6 +47,7 @@ import { useRouter } from 'vue-router'
 import { VideoCamera, VideoPlay, Phone } from '@element-plus/icons-vue'
 import { useConsultationStore } from '../stores/consultation.js'
 import { useSignaling } from '../composables/useSignaling.js'
+import DeviceCheckPanel from '../components/common/DeviceCheckPanel.vue'
 
 const router = useRouter()
 const store = useConsultationStore()
@@ -87,6 +88,10 @@ async function handleCall() {
   }
 }
 
+function onDevicesReady() {
+  // Devices checked and OK
+}
+
 async function cancelCall() {
   await store.hangup()
 }
@@ -107,9 +112,14 @@ function resetAndRetry() {
 
 .entry-card {
   text-align: center;
-  padding: 56px 72px;
-  max-width: 460px;
+  padding: 40px 36px;
+  max-width: 480px;
   width: 100%;
+}
+
+.device-panel {
+  text-align: left;
+  margin-bottom: 24px;
 }
 
 .entry-icon-box {
