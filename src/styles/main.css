@@ -1,0 +1,178 @@
+:root {
+  /* Mirrors prototype: E:\项目\华西医疗急救\原型\src\styles\main.scss */
+  --hx-bg: #f5f8fb;
+  --hx-surface: rgba(255, 255, 255, 0.84);
+  --hx-surface-solid: #ffffff;
+  --hx-line: #dfe8ef;
+  --hx-text: #183044;
+  --hx-muted: #6b7c8e;
+
+  --hx-blue: #3d7eff;
+  --hx-cyan: #22a7c8;
+  --hx-green: #3ba7a0;
+  --hx-amber: #d28b24;
+  --hx-red: #d95b5b;
+
+  --hx-shadow: 0 22px 60px rgba(48, 78, 112, 0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  font-family: "Microsoft YaHei", "PingFang SC", "Source Han Sans SC", sans-serif;
+  background:
+    radial-gradient(ellipse 40% 50% at 20% 10%, rgba(80, 177, 187, 0.18), transparent),
+    radial-gradient(ellipse 30% 45% at 80% 15%, rgba(90, 138, 255, 0.16), transparent),
+    linear-gradient(180deg, #f8fbfd 0%, #edf5f7 50%, #f7fafc 100%);
+  color: var(--hx-text);
+  -webkit-font-smoothing: antialiased;
+  background-attachment: fixed;
+}
+
+#app { width: 100%; min-height: 100vh; }
+
+/* Glass panel — the prototype's primary surface pattern */
+.glass-panel {
+  background: var(--hx-surface-solid);
+  border: 1px solid rgba(214, 228, 237, 0.7);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow:
+    0 1px 2px rgba(24, 48, 68, 0.04),
+    0 4px 12px rgba(24, 48, 68, 0.05),
+    0 10px 28px rgba(24, 48, 68, 0.05);
+  transition: box-shadow 0.25s ease;
+}
+
+.glass-panel:hover {
+  box-shadow:
+    0 4px 8px rgba(24, 48, 68, 0.06),
+    0 12px 28px rgba(24, 48, 68, 0.1),
+    0 24px 52px rgba(24, 48, 68, 0.1);
+}
+
+/* Panel header */
+.panel-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--hx-text);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eef2f5;
+}
+
+.panel-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0c7872;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+/* Risk pills */
+.risk-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.risk-high {
+  background: linear-gradient(135deg, #f56c6c, #e04545);
+  box-shadow: 0 2px 8px rgba(224, 69, 69, 0.3);
+}
+
+.risk-medium {
+  background: linear-gradient(135deg, #e6a23c, #d28b24);
+  box-shadow: 0 2px 8px rgba(210, 139, 36, 0.3);
+}
+
+.risk-low {
+  background: linear-gradient(135deg, #3ba7a0, #2d8a82);
+  box-shadow: 0 2px 8px rgba(45, 138, 130, 0.3);
+}
+
+/* Info block (used in detail panels) */
+.info-block {
+  background: #f8fafb;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(24, 48, 68, 0.12); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(24, 48, 68, 0.2); }
+
+/* Element Plus overrides for light theme */
+.el-button--primary {
+  --el-button-bg-color: var(--hx-blue);
+  --el-button-border-color: var(--hx-blue);
+  --el-button-hover-bg-color: #2b6aee;
+  --el-button-hover-border-color: #2b6aee;
+  box-shadow: 0 2px 8px rgba(61, 126, 255, 0.25), 0 4px 16px rgba(61, 126, 255, 0.15);
+  transition: all 0.2s ease;
+}
+
+.el-button--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(61, 126, 255, 0.35), 0 8px 24px rgba(61, 126, 255, 0.2);
+}
+
+.el-button--success {
+  --el-button-bg-color: var(--hx-green);
+  --el-button-border-color: var(--hx-green);
+  --el-button-hover-bg-color: #2d8a82;
+  --el-button-hover-border-color: #2d8a82;
+  box-shadow: 0 2px 8px rgba(59, 167, 160, 0.25);
+  transition: all 0.2s ease;
+}
+
+.el-button--success:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 167, 160, 0.35);
+}
+
+.el-button--danger {
+  --el-button-bg-color: var(--hx-red);
+  --el-button-border-color: var(--hx-red);
+  box-shadow: 0 2px 8px rgba(217, 91, 91, 0.25);
+  transition: all 0.2s ease;
+}
+
+.el-button--danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(217, 91, 91, 0.35);
+}
+
+.el-button--default {
+  background: var(--hx-surface-solid);
+  border-color: var(--hx-line);
+  color: var(--hx-text);
+}
+
+.el-button--default:hover {
+  background: #f5f8fb;
+  border-color: #c8d6e0;
+}
+
+.el-button--large {
+  border-radius: 14px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.el-message-box {
+  border-radius: 18px;
+  box-shadow:
+    0 4px 8px rgba(24, 48, 68, 0.06),
+    0 12px 28px rgba(24, 48, 68, 0.1),
+    0 24px 52px rgba(24, 48, 68, 0.1);
+}
